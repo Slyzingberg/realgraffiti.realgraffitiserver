@@ -1,6 +1,7 @@
 package realgraffiti.server.servlets;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +13,22 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
 public class ServerInfo extends HttpServlet {
 	public final String GET_UPLOAD_URL_ACTION = "getUploadUrl";
-	public final String ADD_GRAFFITI_SERVLET_PATH = "RealGraffitiDataServlet";
+	public final String RETURN_ERROR_ACTION = "error";
+	public final String SHOW_BLOB_KEY_ACION = "blobkey";
+	public final String ADD_GRAFFITI_SERVLET_PATH = "/RealGraffitiData";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String action = req.getParameter("action");
-		
+		resp.setContentType("text/plain");
+
 		if(action.equals(GET_UPLOAD_URL_ACTION)){
 			String uploadUrl = getUploadUrl();
 			resp.getWriter().write(uploadUrl);
+		} else if(action.equals(RETURN_ERROR_ACTION)){
+			resp.getWriter().write("Upload error");
+		} else if(action.equals(SHOW_BLOB_KEY_ACION)){
+			String blobkey = req.getParameter("blobkey");
+			resp.getWriter().write(blobkey);
 		}
 	}
 
