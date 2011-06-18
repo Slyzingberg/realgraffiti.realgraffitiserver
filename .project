@@ -3,6 +3,7 @@
 	<name>RealGraffitiServer</name>
 	<comment></comment>
 	<projects>
+		<project>RealGraffitiCommon</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -30,4 +31,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.google.appengine.eclipse.core.gaeNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>common</name>
+			<type>2</type>
+			<location>C:/Users/Alex/HUJI/PostPc/Project/Dev/RealGraffitiCommon/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

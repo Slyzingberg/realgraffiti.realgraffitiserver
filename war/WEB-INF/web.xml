@@ -5,13 +5,35 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>RealGraffitiServer</servlet-name>
-		<servlet-class>realgraffiti.server.RealGraffitiServerServlet</servlet-class>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>realgraffiti.server.servlets.TestServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>RealGraffitiData</servlet-name>
+		<servlet-class>realgraffiti.server.servlets.RealGraffitiDataServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>ServerInfo</servlet-name>
+		<servlet-class>realgraffiti.server.servlets.ServerInfo</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
-		<servlet-name>RealGraffitiServer</servlet-name>
-		<url-pattern>/realgraffitiserver</url-pattern>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/TestServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ServerInfo</servlet-name>
+		<url-pattern>/ServerInfo</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>RealGraffitiData</servlet-name>
+		<url-pattern>/RealGraffitiData</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
