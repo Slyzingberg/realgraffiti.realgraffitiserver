@@ -11,7 +11,7 @@ import javax.jdo.Query;
 import realgraffiti.common.dto.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class RealGraffitiData implements realgraffiti.common.data.RealGraffitiData {
+public class RealGraffitiDataStore implements realgraffiti.common.data.RealGraffitiData {
 	
 	public boolean addNewGraffiti(GraffitiDto GraffitiDto) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();

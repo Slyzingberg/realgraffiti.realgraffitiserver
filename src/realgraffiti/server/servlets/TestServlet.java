@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.*;
 
 import realgraffiti.common.dto.*;
-import realgraffiti.server.data.RealGraffitiData;
+import realgraffiti.server.data.RealGraffitiDataStore;
 
 @SuppressWarnings("serial")
 public class TestServlet extends HttpServlet {
@@ -16,7 +16,7 @@ public class TestServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Real graffiti test page <br/>");
-		RealGraffitiData graffitiData = new RealGraffitiData();
+		RealGraffitiDataStore graffitiData = new RealGraffitiDataStore();
 		
 		List siftDescriptors = new ArrayList();
 		siftDescriptors.add(1);
