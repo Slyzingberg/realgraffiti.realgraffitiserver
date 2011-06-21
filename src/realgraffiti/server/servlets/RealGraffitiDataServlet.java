@@ -29,26 +29,19 @@ public class RealGraffitiDataServlet extends HttpServlet {
 		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
         BlobKey blobKey = blobs.get("file0");
         
-        GraffitiDto graffiti = getGraffitiDto(req);
+        GraffitiDto graffiti = (GraffitiDto) ServletHelper.extractParameter(req, "object", GraffitiDto.class);
         graffiti.setImage(blobKey.getKeyString());
         RealGraffitiData data = new RealGraffitiDataStore();
         
         data.addNewGraffiti(graffiti);
+        
         if (blobKey == null) {
         	resp.sendRedirect("/ServerInfo?action=error");
         } else {
         	resp.sendRedirect("/ServerInfo?action=blobkey&blobkey=" + URLEncoder.encode(blobKey.getKeyString(),"UTF-8"));
         }
-
 	}
 	
-	private GraffitiDto getGraffitiDto(HttpServletRequest req) {
-		Gson gson = new Gson();
-		String json = req.getParameter("object");
-		GraffitiDto graffiti = gson.fromJson(json, GraffitiDto.class);
-		
-		return graffiti;
-	}
 
 	public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		resp.getWriter().write("this is put");

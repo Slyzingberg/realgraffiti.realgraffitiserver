@@ -18,8 +18,18 @@ public class ServerInfo extends HttpServlet {
 	public final String ADD_GRAFFITI_SERVLET_PATH = "/RealGraffitiData";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String action = req.getParameter("action");
+		doPost(req, resp);
+	}
+	
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.setContentType("text/plain");
+		
+		//String action = req.getParameter("action");
+		String action = ServletHelper.extractParameter(req, "action");
+		if(action == null){
+			resp.getWriter().write("no action was givven");
+			return;
+		}
 
 		if(action.equals(GET_UPLOAD_URL_ACTION)){
 			String uploadUrl = getUploadUrl();
