@@ -1,8 +1,11 @@
 package realgraffiti.server.servlets;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+
+import realgraffiti.common.dto.GraffitiDto;
 
 import com.google.gson.Gson;
 
@@ -23,6 +26,15 @@ public class ServletHelper {
 		Object param = gson.fromJson(paramJson, type);
 		
 		return param;
+	}
+
+	public static String SerializeParameter(
+			Object object) {
+		
+		Gson gson = new Gson();
+		
+		return gson.toJson(object);
+		
 	}
 	
 }
