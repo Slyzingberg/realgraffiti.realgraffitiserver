@@ -64,6 +64,4 @@ public class RealGraffitiDataStore implements realgraffiti.common.data.RealGraff
 		
 		return imageData;
 	}
-	
-	
 }
