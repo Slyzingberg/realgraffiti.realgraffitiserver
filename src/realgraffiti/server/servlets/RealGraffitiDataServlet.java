@@ -56,15 +56,16 @@ public class RealGraffitiDataServlet extends HttpServlet {
 		
 		Collection<GraffitiDto> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
 		
-		String json = ServletHelper.SerializeParameter(nearByGraffities);
-		resp.getWriter().write(json);
+		ServletHelper.setResponseObject(resp, nearByGraffities);
 	}
 	
 	private void getGraffitiImage(HttpServletRequest req,
-			HttpServletResponse resp) {
+			HttpServletResponse resp) throws IOException {
+		RealGraffitiData data = new RealGraffitiDataStore();
+		Long graffitiKey = (Long)ServletHelper.extractParameter(req, ACTION_PARAMETER_KEY, Long.class);
 		
-		// TODO Auto-generated method stub
-		
+		byte[] imageData = data.getGraffitiImage(graffitiKey);
+		ServletHelper.setResponseObject(resp, imageData);
 	}
 
 	private void addNewGraffiti(HttpServletRequest req, HttpServletResponse resp)

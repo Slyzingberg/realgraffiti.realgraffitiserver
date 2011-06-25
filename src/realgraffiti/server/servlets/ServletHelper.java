@@ -1,9 +1,11 @@
 package realgraffiti.server.servlets;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import realgraffiti.common.dto.GraffitiDto;
 
@@ -35,6 +37,15 @@ public class ServletHelper {
 		
 		return gson.toJson(object);
 		
+	}
+
+	public static void setResponseObject(HttpServletResponse resp,
+			Object object) throws IOException {
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(object);
+		
+		resp.getWriter().write(json);
 	}
 	
 }
