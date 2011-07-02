@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import realgraffiti.common.data.RealGraffitiData;
-import realgraffiti.common.dto.GraffitiDto;
-import realgraffiti.common.dto.GraffitiLocationParametersDto;
+import realgraffiti.common.dataObjects.*;
+
 import realgraffiti.server.data.RealGraffitiDataStore;
 
 import com.google.appengine.api.blobstore.BlobKey;
@@ -50,11 +50,11 @@ public class RealGraffitiDataServlet extends HttpServlet {
 
 	private void getNearByGraffiti(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		RealGraffitiData data = new RealGraffitiDataStore();
-		GraffitiLocationParametersDto graffitiLocationParameters = 
-			(GraffitiLocationParametersDto)ServletHelper.extractParameter(
-					req, ACTION_PARAMETER_KEY, GraffitiLocationParametersDto.class);
+		GraffitiLocationParameters graffitiLocationParameters = 
+			(GraffitiLocationParameters)ServletHelper.extractParameter(
+					req, ACTION_PARAMETER_KEY, GraffitiLocationParameters.class);
 		
-		Collection<GraffitiDto> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
+		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
 		
 		ServletHelper.setResponseObject(resp, nearByGraffities);
 	}
@@ -73,7 +73,7 @@ public class RealGraffitiDataServlet extends HttpServlet {
 		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
         BlobKey blobKey = blobs.get("file0");
         
-        GraffitiDto graffiti = (GraffitiDto) ServletHelper.extractParameter(req, "object", GraffitiDto.class);
+        Graffiti graffiti = (Graffiti) ServletHelper.extractParameter(req, "object", Graffiti.class);
         graffiti.setImage(blobKey.getKeyString());
         RealGraffitiData data = new RealGraffitiDataStore();
         

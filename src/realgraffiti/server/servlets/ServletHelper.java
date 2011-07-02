@@ -7,8 +7,6 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import realgraffiti.common.dto.GraffitiDto;
-
 import com.google.gson.Gson;
 
 public class ServletHelper {

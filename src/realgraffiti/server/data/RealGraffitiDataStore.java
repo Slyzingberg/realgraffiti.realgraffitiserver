@@ -12,16 +12,16 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 
-import realgraffiti.common.dto.*;
+import realgraffiti.common.dataObjects.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RealGraffitiDataStore implements realgraffiti.common.data.RealGraffitiData {
 	
-	public boolean addNewGraffiti(GraffitiDto GraffitiDto) {
+	public boolean addNewGraffiti(Graffiti Graffiti) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 
         try {
-            pm.makePersistent(GraffitiDto);
+            pm.makePersistent(Graffiti);
         } finally {
             pm.close();
         }
@@ -29,13 +29,13 @@ public class RealGraffitiDataStore implements realgraffiti.common.data.RealGraff
         return true;
 	}
 	
-	public Collection<GraffitiDto> getNearByGraffiti(GraffitiLocationParametersDto graffitiLocationParameters){
+	public Collection<Graffiti> getNearByGraffiti(GraffitiLocationParameters graffitiLocationParameters){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query query = pm.newQuery(GraffitiDto.class);
+		Query query = pm.newQuery(Graffiti.class);
 
-	    List<GraffitiDto> results;
+	    List<Graffiti> results;
 	    try {
-	        results = (List<GraffitiDto>)query.execute();
+	        results = (List<Graffiti>)query.execute();
 	    } finally {
 	        query.closeAll();
 	    }
@@ -47,17 +47,17 @@ public class RealGraffitiDataStore implements realgraffiti.common.data.RealGraff
 	public byte[] getGraffitiImage(Long graffitiKey) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		Query query = pm.newQuery(GraffitiDto.class);
+		Query query = pm.newQuery(Graffiti.class);
 		query.setFilter("_key == key");
 		query.declareParameters("Long key");
 		
-		List<GraffitiDto> graffities = (List<GraffitiDto>)query.execute(graffitiKey);
+		List<Graffiti> graffities = (List<Graffiti>)query.execute(graffitiKey);
 		
 		if(graffities.size() == 0){
 			throw new IllegalArgumentException("Graffiti key not found: " + graffitiKey);
 		}
 		
-		GraffitiDto graffiti = graffities.get(0);
+		Graffiti graffiti = graffities.get(0);
 		
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		byte[] imageData = blobstoreService.fetchData(new BlobKey(graffiti.getImageKey().toString()), 0, BlobstoreService.MAX_BLOB_FETCH_SIZE - 1);

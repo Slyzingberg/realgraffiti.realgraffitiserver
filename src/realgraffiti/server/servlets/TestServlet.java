@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.*;
 
-import realgraffiti.common.dto.*;
+import realgraffiti.common.dataObjects.*;
 import realgraffiti.server.data.RealGraffitiDataStore;
 
 @SuppressWarnings("serial")
@@ -22,12 +22,12 @@ public class TestServlet extends HttpServlet {
 		siftDescriptors.add(1);
 		siftDescriptors.add(2);
 		siftDescriptors.add(3);
-		GraffitiLocationParametersDto lp = new GraffitiLocationParametersDto("lala", 34, siftDescriptors);
-		GraffitiDto graffiti = new GraffitiDto(lp, "image key");
+		GraffitiLocationParameters lp = new GraffitiLocationParameters("lala", 34, siftDescriptors);
+		Graffiti graffiti = new Graffiti(lp, "image key");
 		graffitiData.addNewGraffiti(graffiti);
 		
-		Collection<GraffitiDto> graffities = graffitiData.getNearByGraffiti(lp);
-		for(GraffitiDto g: graffities){
+		Collection<Graffiti> graffities = graffitiData.getNearByGraffiti(lp);
+		for(Graffiti g: graffities){
 			resp.getWriter().write("key: " + g.getKey() + "imageKey: " + g.getImageKey() + "<br/>") ;
 		}
 	}
