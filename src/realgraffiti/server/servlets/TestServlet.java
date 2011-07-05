@@ -22,7 +22,10 @@ public class TestServlet extends HttpServlet {
 		siftDescriptors.add(1);
 		siftDescriptors.add(2);
 		siftDescriptors.add(3);
-		GraffitiLocationParameters lp = new GraffitiLocationParameters("lala", 34, siftDescriptors);
+		
+		Coordinates coordinates = new Coordinates(123, 321);
+		
+		GraffitiLocationParameters lp = new GraffitiLocationParameters(coordinates, 34, siftDescriptors);
 		Graffiti graffiti = new Graffiti(lp, "image key");
 		graffitiData.addNewGraffiti(graffiti);
 		
