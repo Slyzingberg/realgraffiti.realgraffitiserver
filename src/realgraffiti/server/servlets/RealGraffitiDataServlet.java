@@ -69,21 +69,11 @@ public class RealGraffitiDataServlet extends HttpServlet {
 	}
 
 	private void addNewGraffiti(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, UnsupportedEncodingException {
-		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
-        BlobKey blobKey = blobs.get("file0");
-        
+			throws IOException, UnsupportedEncodingException {       
         Graffiti graffiti = (Graffiti) ServletHelper.extractParameter(req, "object", Graffiti.class);
-        graffiti.setImage(blobKey.getKeyString());
         RealGraffitiData data = new RealGraffitiDataStore();
         
         data.addNewGraffiti(graffiti);
-        
-        if (blobKey == null) {
-        	resp.sendRedirect("/ServerInfo?action=error");
-        } else {
-        	resp.sendRedirect("/ServerInfo?action=blobkey&blobkey=" + URLEncoder.encode(blobKey.getKeyString(),"UTF-8"));
-        }
 	}
 	
 
