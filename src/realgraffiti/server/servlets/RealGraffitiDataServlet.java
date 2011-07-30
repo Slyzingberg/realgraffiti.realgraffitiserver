@@ -38,6 +38,7 @@ public class RealGraffitiDataServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String action = ServletHelper.extractParameter(req, ACTION_KEY);
 		
+		
 		if(action.equals(ADD_GRAFFITI_KEY))
 			addNewGraffiti(req, resp);
 		else if(action.equals(GET_NEARBY_GRAFFITI_KEY))

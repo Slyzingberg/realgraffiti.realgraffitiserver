@@ -1,28 +1,22 @@
 package realgraffiti.server.data;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.jdo.PersistenceManager;
-import javax.jdo.annotations.Key;
-
 import javax.jdo.Query;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-
 import realgraffiti.common.data.RealGraffitiData;
 import realgraffiti.common.dataObjects.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import realgraffiti.server.PersistentDataObjects.PersistentGraffiti;
 
 public class RealGraffitiDataStore implements RealGraffitiData {
 	
-	public boolean addNewGraffiti(Graffiti Graffiti) {
+	public boolean addNewGraffiti(Graffiti graffiti) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-
+		PersistentGraffiti persistantGraffiti = new	PersistentGraffiti(graffiti);
+			
         try {
-            pm.makePersistent(Graffiti);
+            pm.makePersistent(persistantGraffiti);
         } finally {
             pm.close();
         }
@@ -32,20 +26,49 @@ public class RealGraffitiDataStore implements RealGraffitiData {
 	
 	public Collection<Graffiti> getNearByGraffiti(GraffitiLocationParameters graffitiLocationParameters){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Query query = pm.newQuery(Graffiti.class);
+		Query query = pm.newQuery(PersistentGraffiti.class);
 
-	    List<Graffiti> results;
+	    List<PersistentGraffiti> results;
 	    try {
-	        results = (List<Graffiti>)query.execute();
+	        results = (List<PersistentGraffiti>)query.execute();
 	    } finally {
 	        query.closeAll();
 	    }
 	    
-	    return results;
+	    List<Graffiti> commonGraffitiResult = convertToCommonGraffitiList(results);
+	    
+	    
+	    return commonGraffitiResult;
+	}
+
+	private List<Graffiti> convertToCommonGraffitiList(
+			List<PersistentGraffiti> results) {
+		List<Graffiti> commonGraffitiResult = new ArrayList<Graffiti>();
+	    for(PersistentGraffiti persistentGraffiti : results){
+	    	Graffiti commonGraffiti = persistentGraffiti.toCommonGraffiti();
+	    	commonGraffiti.setImageData(null);
+	    	commonGraffitiResult.add(commonGraffiti);
+	    }
+		return commonGraffitiResult;
 	}
 
 	@Override
 	public byte[] getGraffitiImage(Long graffitiKey) {
-		return null;
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(PersistentGraffiti.class);
+		query.setFilter("_key == key");
+		query.declareParameters("Long key");
+		
+		List<PersistentGraffiti> graffities = (List<PersistentGraffiti>)query.execute(graffitiKey);
+		
+		if(graffities.size() == 0){
+			throw new IllegalArgumentException("Graffiti key not found: " + graffitiKey);
+		}
+		
+		PersistentGraffiti graffiti = (PersistentGraffiti)graffities.get(0);
+		
+		
+		return graffiti.toCommonGraffiti().getImageData();
 	}
 }
