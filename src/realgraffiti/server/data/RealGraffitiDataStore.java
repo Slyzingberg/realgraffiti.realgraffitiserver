@@ -37,13 +37,14 @@ public class RealGraffitiDataStore implements RealGraffitiData {
 	    
 	    List<Graffiti> commonGraffitiResult = convertToCommonGraffitiList(results);
 	    
-	    
 	    return commonGraffitiResult;
 	}
 
 	private List<Graffiti> convertToCommonGraffitiList(
 			List<PersistentGraffiti> results) {
+		
 		List<Graffiti> commonGraffitiResult = new ArrayList<Graffiti>();
+		
 	    for(PersistentGraffiti persistentGraffiti : results){
 	    	Graffiti commonGraffiti = persistentGraffiti.toCommonGraffiti();
 	    	commonGraffiti.setImageData(null);

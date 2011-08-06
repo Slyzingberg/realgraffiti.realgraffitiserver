@@ -157,6 +157,9 @@ public class TestServlet extends HttpServlet {
 	}
 	
 	private String convertToString(byte[] array){
+		if(array == null)
+			return "null";
+		
 		String output = ""; 
 			
 		for(byte b : array){

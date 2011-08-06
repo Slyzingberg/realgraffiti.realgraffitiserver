@@ -2,23 +2,18 @@ package realgraffiti.server.servlets;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collection;
-import java.util.Map;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import realgraffiti.common.data.RealGraffitiData;
 import realgraffiti.common.dataObjects.*;
-
 import realgraffiti.server.data.RealGraffitiDataStore;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.gson.Gson;
+
 
 @SuppressWarnings("serial")
 public class RealGraffitiDataServlet extends HttpServlet {
