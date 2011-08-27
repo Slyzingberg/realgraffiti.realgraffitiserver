@@ -24,7 +24,8 @@ public class RealGraffitiDataServlet extends HttpServlet {
 	
 	private final String ADD_GRAFFITI_KEY = "addGraffiti";
 	private final String GET_NEARBY_GRAFFITI_KEY = "getNearByGraffiti";
-	private final String GET_GRAFFITI_IMAGE_KEY = "getGraffitiImageKey";
+	private final String GET_GRAFFITI_IMAGE_KEY = "getGraffitiImage";
+	private final String GET_GRAFFITI_WALL_IMAGE_KEY = "getGraffitiWallImage";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		resp.getWriter().write("this is get");
@@ -40,6 +41,8 @@ public class RealGraffitiDataServlet extends HttpServlet {
 			getNearByGraffiti(req, resp);
 		else if(action.equals(GET_GRAFFITI_IMAGE_KEY))
 			getGraffitiImage(req, resp);
+		else if(action.equals(GET_GRAFFITI_WALL_IMAGE_KEY))
+			getGraffitiWallImage(req, resp);
 		else
 			throw new IllegalArgumentException("Illegal action: " + action);
 	}
@@ -52,6 +55,12 @@ public class RealGraffitiDataServlet extends HttpServlet {
 		
 		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
 		
+		// Remove image data to save bandwidth. Later we only get the images we need.
+		for(Graffiti graffiti : nearByGraffities){
+			graffiti.setImageData(null);
+			graffiti.setWallImageData(null);
+		}
+		
 		ServletHelper.setResponseObject(resp, nearByGraffities);
 	}
 	
@@ -63,6 +72,15 @@ public class RealGraffitiDataServlet extends HttpServlet {
 		byte[] imageData = data.getGraffitiImage(graffitiKey);
 		ServletHelper.setResponseObject(resp, imageData);
 	}
+	
+	private void getGraffitiWallImage(HttpServletRequest req,
+			HttpServletResponse resp) throws IOException {
+		RealGraffitiData data = new RealGraffitiDataStore();
+		Long graffitiKey = (Long)ServletHelper.extractParameter(req, ACTION_PARAMETER_KEY, Long.class);
+		
+		byte[] wallImageData = data.getGraffitiWallImage(graffitiKey);
+		ServletHelper.setResponseObject(resp, wallImageData);
+	}
 
 	private void addNewGraffiti(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, UnsupportedEncodingException {       
@@ -71,6 +89,7 @@ public class RealGraffitiDataServlet extends HttpServlet {
         
         data.addNewGraffiti(graffiti);
 	}
+	
 	
 
 	public void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException{

@@ -25,13 +25,29 @@ public class DataViewer extends HttpServlet {
 			GraffitiLocationParameters glp =  graffiti.getLocationParameters();
 			if(glp == null)
 				row += "location parameters null!";
-			else
+			else{
 				row += " Coor: ( " + glp.getCoordinates().getLatitude() + ", " + glp.getCoordinates().getLongitude() + " )";
+				row += " image data: " + convertToString(graffiti.getImageData()) + " wall image: " + convertToString(graffiti.getWallImageData()) + "</br>"; 
+					
+			}
 			
 			resp.getWriter().write(row + "<br/>");
 			
 		}
 		
 		resp.getWriter().write("</body></html>");
+	}
+	
+	private String convertToString(byte[] array){
+		if(array == null)
+			return "null";
+		
+		String output = ""; 
+			
+		for(byte b : array){
+			output += b + ",";
+		}
+		
+		return output;
 	}
 }
