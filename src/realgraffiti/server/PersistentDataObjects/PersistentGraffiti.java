@@ -14,25 +14,33 @@ import com.google.appengine.api.datastore.Blob;
 public class PersistentGraffiti {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long _key;
-	
+	private Long _key;	
 	@Persistent
 	private GraffitiLocationParameters _graffitiLocationParameters;
-	
 	@Persistent
 	private Blob _imageData;
-
+	@Persistent
+	private Blob _wallImageData;
+	
 	public PersistentGraffiti(Graffiti commonGraffiti){
 		_key = commonGraffiti.getKey();
 		_graffitiLocationParameters = commonGraffiti.getLocationParameters();
 		_imageData = new Blob(commonGraffiti.getImageData());
+		_wallImageData = new Blob(commonGraffiti.getWallImageData());
 	}
 	
 	public Graffiti toCommonGraffiti(){
-		Graffiti commonGraffiti = new Graffiti(_graffitiLocationParameters, _imageData.getBytes());
+		byte[] imageData = null;
+		byte[] wallImageData = null;
 		
+		if(_imageData != null)
+			imageData = _imageData.getBytes();
+		
+		if(_wallImageData != null)
+			wallImageData = _wallImageData.getBytes();
+				
+		Graffiti commonGraffiti = new Graffiti(_graffitiLocationParameters, imageData, wallImageData);		
 		commonGraffiti.setKey(_key);
-		
 		return commonGraffiti;
 	}
 }
