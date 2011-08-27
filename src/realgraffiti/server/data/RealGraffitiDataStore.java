@@ -47,7 +47,6 @@ public class RealGraffitiDataStore implements RealGraffitiData {
 		
 	    for(PersistentGraffiti persistentGraffiti : results){
 	    	Graffiti commonGraffiti = persistentGraffiti.toCommonGraffiti();
-	    	commonGraffiti.setImageData(null);
 	    	commonGraffitiResult.add(commonGraffiti);
 	    }
 		return commonGraffitiResult;
@@ -55,6 +54,19 @@ public class RealGraffitiDataStore implements RealGraffitiData {
 
 	@Override
 	public byte[] getGraffitiImage(Long graffitiKey) {
+		Graffiti graffiti = getGraffitiByKey(graffitiKey);
+		
+		return graffiti.getImageData();
+	}
+
+	@Override
+	public byte[] getGraffitiWallImage(Long graffitiKey) {
+		Graffiti graffiti = getGraffitiByKey(graffitiKey);
+		
+		return graffiti.getWallImageData();
+	}
+	
+	private Graffiti getGraffitiByKey(Long graffitiKey) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query query = pm.newQuery(PersistentGraffiti.class);
@@ -68,8 +80,7 @@ public class RealGraffitiDataStore implements RealGraffitiData {
 		}
 		
 		PersistentGraffiti graffiti = (PersistentGraffiti)graffities.get(0);
-		
-		
-		return graffiti.toCommonGraffiti().getImageData();
-	}
+		return graffiti.toCommonGraffiti();
+	}	
+
 }
