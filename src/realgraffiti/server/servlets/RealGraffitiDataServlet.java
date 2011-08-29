@@ -53,7 +53,7 @@ public class RealGraffitiDataServlet extends HttpServlet {
 			(GraffitiLocationParameters)ServletHelper.extractParameter(
 					req, ACTION_PARAMETER_KEY, GraffitiLocationParameters.class);
 		
-		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
+		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters,10000);
 		
 		// Remove image data to save bandwidth. Later we only get the images we need.
 		for(Graffiti graffiti : nearByGraffities){

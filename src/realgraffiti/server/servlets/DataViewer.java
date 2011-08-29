@@ -18,7 +18,7 @@ public class DataViewer extends HttpServlet {
 		resp.getWriter().write("<html><head></head><body>");
 		RealGraffitiData data = new RealGraffitiDataStore();
 		GraffitiLocationParameters graffitiLocationParameters = null;
-		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters);
+		Collection<Graffiti> nearByGraffities = data.getNearByGraffiti(graffitiLocationParameters,1000);
 		
 		for(Graffiti graffiti : nearByGraffities){
 			String row = "Key: " + graffiti.getKey() + " ";

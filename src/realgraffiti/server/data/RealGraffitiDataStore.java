@@ -24,7 +24,7 @@ public class RealGraffitiDataStore implements RealGraffitiData {
         return true;
 	}
 	
-	public Collection<Graffiti> getNearByGraffiti(GraffitiLocationParameters graffitiLocationParameters){
+	public Collection<Graffiti> getNearByGraffiti(GraffitiLocationParameters graffitiLocationParameters, int rangeInMeters){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(PersistentGraffiti.class);
 

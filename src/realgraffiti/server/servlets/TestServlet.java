@@ -36,7 +36,7 @@ public class TestServlet extends HttpServlet {
 		Graffiti graffiti = new Graffiti(lp, imageData, wallImageData);
 		graffitiData.addNewGraffiti(graffiti);
 		
-		Collection<Graffiti> graffities = graffitiData.getNearByGraffiti(lp);
+		Collection<Graffiti> graffities = graffitiData.getNearByGraffiti(lp,1000);
 		for(Graffiti g: graffities){
 			resp.getWriter().write("key: " + g.getKey() + " imageData: " + convertToString(g.getImageData()) + " wall image data: " + convertToString(g.getWallImageData()) + "<br/>") ;
 		}
